@@ -10,13 +10,15 @@
             </header><!-- modal-card-head -->
     
             <section class="modal-card-body">
-                @include ('master.success')
-                
+                {{ Breadcrumbs::render('income') }}
+
+                @include ('master.notification')
+
                 <table class="table is-fullwidth is-bordered is-hoverable is-narrow">
                     <thead>
-                        <tr">
+                        <tr>
                             <th class="has-text-centered">Date</th>
-                            <th class="has-text-centered">Description</th>
+                            <th class="has-text-centered">Subject</th>
                             <th class="has-text-centered">Amount</th>
                         </tr>
                     </thead>
@@ -25,7 +27,11 @@
                         @foreach ($incomes as $income)
                             <tr>
                                 <td class="has-text-centered">{{ $income->date }}</td>
-                                <td class="has-text-centered">{{ $income->description }}</td>
+                                <td class="has-text-centered">
+                                    <a href="{{ route('income.show', $income->id) }}">
+                                        {{ $income->subject }}
+                                    </a>
+                                </td>
                                 <td class="has-text-centered">{{ $income->amount }}</td>
                             </tr>
                         @endforeach

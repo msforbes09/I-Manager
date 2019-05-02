@@ -9,10 +9,12 @@
                 <p class="subtitle">New Income Record</p>
             </header><!-- modal-card-head -->
         
-            <form method="post" action="{{ route('income.store') }}">
-                @csrf
+            <section class="modal-card-body">
+                {{ Breadcrumbs::render('income-create') }}
 
-                <section class="modal-card-body">
+                <form id="form" method="post" action="{{ route('income.store') }}">
+                    @csrf
+
                     <div class="field">
                         <div class="control has-icons-right">
                             <input type="date" id="date" name="date"
@@ -29,16 +31,16 @@
 
                     <div class="field">
                         <div class="control has-icons-right">
-                            <input type="text" id="description" name="description" placeholder="Description"
-                                class="input {{ $errors->has('description') ? ' is-danger' : '' }}"
-                                value="{{ old('description') }}">
+                            <input type="text" id="subject" name="subject" placeholder="Subject"
+                                class="input {{ $errors->has('subject') ? ' is-danger' : '' }}"
+                                value="{{ old('subject') }}">
                     
                             <span class="icon is-small is-right">
                                 <i class="fas fa-tag"></i>
                             </span><!-- icon -->
                         </div><!-- control -->
                     
-                        <p class="help is-danger">{{ $errors->first('description') }}</p>
+                        <p class="help is-danger">{{ $errors->first('subject') }}</p>
                     </div><!-- field -->
 
                     <div class="field">
@@ -54,14 +56,28 @@
                     
                         <p class="help is-danger">{{ $errors->first('amount') }}</p>
                     </div><!-- field -->
-                </section><!-- modal-card-body -->
-                
-                <footer class="modal-card-foot">
-                    <button type="submit" class="button is-primary is-outlined">Save</button>
 
-                    <a href="{{ route('income.index') }}" class="button">Cancel</a>
-                </footer><!-- modal-card-foot -->
-            </form>
+                    <div class="field">
+                        <div class="control has-icons-right">
+                            <input type="text" id="details" name="details" placeholder="Details"
+                                class="input {{ $errors->has('details') ? ' is-danger' : '' }}"
+                                value="{{ old('details') }}">
+                    
+                            <span class="icon is-small is-right">
+                                <i class="fas fa-list"></i>
+                            </span><!-- icon -->
+                        </div><!-- control -->
+                    </div><!-- field -->
+                </form>
+            </section><!-- modal-card-body -->
+            
+            <footer class="modal-card-foot">
+                <a href="{{ route('income.store') }}" type="submit" class="button is-primary is-outlined"
+                    onclick="event.preventDefault();
+                    document.getElementById('form').submit();">Save</a>
+
+                <a href="{{ route('income.index') }}" class="button">Cancel</a>
+            </footer><!-- modal-card-foot -->
         </div><!-- modal-card -->
     </div><!-- modal -->
 @endsection

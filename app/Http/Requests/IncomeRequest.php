@@ -20,7 +20,7 @@ class IncomeRequest extends FormRequest
     {
         return [
             'date' => 'required|date',
-            'description' => 'required|min:5',
+            'subject' => 'required|min:5',
             'amount' => 'required|numeric',
         ];
     }

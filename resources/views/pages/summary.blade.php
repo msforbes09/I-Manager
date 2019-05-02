@@ -3,9 +3,11 @@
 @section ('main')
     <section class="section">
         <div class="container">
+            {{ Breadcrumbs::render('summary') }}
+
             <article class="message">
                 <div class="message-header">
-                    <p>Summary as of {{ date('M d Y') }}</p>
+                    <p>Summary as of {{ date('M j, Y') }}</p>
                 </div><!-- message-header -->
             
                 <div class="message-body">

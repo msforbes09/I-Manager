@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\IncomeRequest;
 use App\Income;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IncomeController extends Controller
 {
@@ -15,8 +16,9 @@ class IncomeController extends Controller
 
     public function index()
     {
-        return view('income.index')
-            ->with('incomes', Income::all()->reverse());
+        $incomes = Auth::user()->incomes()->orderBy('date', 'desc')->get();
+
+        return view('income.index', compact('incomes'));
     }
 
     public function create()
@@ -26,23 +28,17 @@ class IncomeController extends Controller
 
     public function store(IncomeRequest $request)
     {
-        Income::create(
-            $request->only(['date', 'description', 'amount'])
+        $request->user()->incomes()->create(
+            $request->only(['date', 'subject', 'amount', 'details'])
         );
 
         return redirect()->route('income.index')
             ->with('success', 'Success!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Income $income)
     {
-        //
+        return view('income.show', compact('income'));
     }
 
     /**
