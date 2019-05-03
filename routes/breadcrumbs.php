@@ -24,6 +24,21 @@ Breadcrumbs::for('income-show', function ($trail, $income) {
     $trail->push(ucfirst($income->subject), route('income.show', $income->id));
 });
 
+Breadcrumbs::for('expense', function ($trail) {
+    $trail->parent('summary');
+    $trail->push('Expenses', route('expense.index'));
+});
+
+Breadcrumbs::for('expense-create', function ($trail) {
+    $trail->parent('expense');
+    $trail->push('Create', route('expense.create'));
+});
+
+Breadcrumbs::for('expense-show', function ($trail, $expense) {
+    $trail->parent('expense');
+    $trail->push(ucfirst($expense->subject), route('expense.show', $expense->id));
+});
+
 // Home > Blog > [Category] > [Post]
 // Breadcrumbs::for('post', function ($trail, $post) {
     // $trail->parent('category', $post->category);

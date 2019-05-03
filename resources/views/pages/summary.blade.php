@@ -14,7 +14,7 @@
                     <div class="content">
                         <p class="subtitle">Today's <a href="{{ route('income.index') }}">income</a> : <strong>1000</strong></p>                    
 
-                        <p class="subtitle">Today's expenses : <strong>1000</strong></p>                    
+                        <p class="subtitle">Today's <a href="{{ route('expense.index') }}">expenses</a> : <strong>1000</strong></p>                    
 
                         <p class="subtitle">Cash on hand : <strong>1000</strong></p>                    
                     </div>

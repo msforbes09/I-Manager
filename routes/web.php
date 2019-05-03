@@ -18,3 +18,4 @@ Route::get('/', 'PageController@home')->name('home');
 Route::get('/summary', 'PageController@summary')->name('summary');
 
 Route::resource('/income', 'IncomeController');
+Route::resource('/expense', 'ExpenseController');
