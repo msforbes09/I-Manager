@@ -6,31 +6,30 @@
         
         <div class="modal-card">
             <header class="modal-card-head">
-                <p class="modal-card-title">Expense Manager</p>
+                <p class="modal-card-title">Expenses: {{ $date }}</p>
             </header><!-- modal-card-head -->
     
             <section class="modal-card-body">
-                {{ Breadcrumbs::render('expense') }}
-
-                @include ('master.notification')
+                {{ Breadcrumbs::render('expense-daily', $date) }}
 
                 <table class="table is-fullwidth is-bordered is-hoverable is-narrow">
                     <thead>
                         <tr>
                             <th class="has-text-centered">Date</th>
-                            <th class="has-text-centered">Total Amount</th>
+                            <th class="has-text-centered">Subject</th>
+                            <th class="has-text-centered">Amount</th>
                         </tr>
                     </thead>
-                    
+                
                     <tbody>
                         @foreach ($expenses as $expense)
                             <tr>
+                                <td class="has-text-centered">{{ $expense->date }}</td>
                                 <td class="has-text-centered">
-                                    <a href="{{ route('expense.daily', $expense->date) }}">
-                                        {{ $expense->date }}
+                                    <a href="{{ route('expense.show', $expense->id) }}">
+                                        {{ $expense->subject }}
                                     </a>
                                 </td>
-
                                 <td class="has-text-centered">{{ $expense->amount }}</td>
                             </tr>
                         @endforeach
@@ -39,9 +38,7 @@
             </section><!-- modal-card-body -->
             
             <footer class="modal-card-foot">
-                <a href="{{ route('expense.create') }}" class="button is-primary is-outlined">New</a>
-
-                <a href="{{ route('summary') }}" class="button">Back</a>
+                <a href="{{ route("expense.index") }}" class="button">Back</a>
             </footer><!-- modal-card-foot -->
         </div><!-- modal-card -->
     </div><!-- modal -->

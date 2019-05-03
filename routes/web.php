@@ -19,3 +19,7 @@ Route::get('/summary', 'PageController@summary')->name('summary');
 
 Route::resource('/income', 'IncomeController');
 Route::resource('/expense', 'ExpenseController');
+
+Route::prefix('/expense')->name('expense.')->group(function () {
+    Route::get('/date/{date}', 'ExpenseController@daily')->name('daily');
+});

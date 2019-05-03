@@ -6,12 +6,17 @@ use App\Expense;
 use App\Http\Requests\ExpenseRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
 {
     public function index()
     {
-        $expenses = Auth::user()->expenses()->orderBy('date', 'desc')->get();
+        $expenses = Auth::user()->expenses()
+            ->select('date', DB::raw('sum(amount) as amount'))
+            ->groupBy('date')
+            ->orderBy('date', 'desc')
+            ->get();
 
         return view('expense.index', compact('expenses'));
     }
@@ -37,37 +42,27 @@ class ExpenseController extends Controller
         return view('expense.show', compact('expense'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //
+    }
+
+    public function daily($date)
+    {
+        $expenses = Auth::user()->expenses()
+            ->where('date', $date)
+            ->get();
+
+        return view('expense.daily', compact('date','expenses'));
     }
 }

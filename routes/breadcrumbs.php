@@ -34,8 +34,13 @@ Breadcrumbs::for('expense-create', function ($trail) {
     $trail->push('Create', route('expense.create'));
 });
 
-Breadcrumbs::for('expense-show', function ($trail, $expense) {
+Breadcrumbs::for('expense-daily', function($trail, $date) {
     $trail->parent('expense');
+    $trail->push($date, route('expense.daily', $date));
+});
+
+Breadcrumbs::for('expense-show', function ($trail, $expense) {
+    $trail->parent('expense-daily', $expense->date);
     $trail->push(ucfirst($expense->subject), route('expense.show', $expense->id));
 });
 

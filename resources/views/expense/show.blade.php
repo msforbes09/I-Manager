@@ -21,7 +21,7 @@
             </section><!-- modal-card-body -->
             
             <footer class="modal-card-foot">
-                <a href="{{ route('income.index') }}" class="button">Back</a>
+                <a href="{{ route('expense.daily', $expense->date) }}" class="button">Back</a>
             </footer><!-- modal-card-foot -->
         </div><!-- modal-card -->
     </div><!-- modal -->
