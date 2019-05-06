@@ -29,14 +29,14 @@ Breadcrumbs::for('expense', function ($trail) {
     $trail->push('Expenses', route('expense.index'));
 });
 
-Breadcrumbs::for('expense-create', function ($trail) {
-    $trail->parent('expense');
-    $trail->push('Create', route('expense.create'));
-});
-
 Breadcrumbs::for('expense-daily', function($trail, $date) {
     $trail->parent('expense');
     $trail->push($date, route('expense.daily', $date));
+});
+
+Breadcrumbs::for('expense-create', function ($trail, $date) {
+    $trail->parent('expense-daily', $date);
+    $trail->push('Create', route('expense.create', $date));
 });
 
 Breadcrumbs::for('expense-show', function ($trail, $expense) {

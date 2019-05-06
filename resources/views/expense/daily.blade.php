@@ -12,6 +12,8 @@
             <section class="modal-card-body">
                 {{ Breadcrumbs::render('expense-daily', $date) }}
 
+                @include ('master.notification')
+
                 <table class="table is-fullwidth is-bordered is-hoverable is-narrow">
                     <thead>
                         <tr>
@@ -38,6 +40,8 @@
             </section><!-- modal-card-body -->
             
             <footer class="modal-card-foot">
+                <a href="{{ route('expense.create', $date) }}" class="button is-primary is-outlined">New</a>
+
                 <a href="{{ route("expense.index") }}" class="button">Back</a>
             </footer><!-- modal-card-foot -->
         </div><!-- modal-card -->

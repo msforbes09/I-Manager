@@ -10,7 +10,7 @@
             </header><!-- modal-card-head -->
     
             <section class="modal-card-body">
-                {{ Breadcrumbs::render('expense-create') }}
+                {{ Breadcrumbs::render('expense-create', $date) }}
 
                 <form id="form" method="post" action="{{ route('expense.store') }}">
                     @csrf
@@ -19,7 +19,7 @@
                         <div class="control has-icons-right">
                             <input type="date" id="date" name="date"
                                 class="input {{ $errors->has('date') ? ' is-danger' : '' }}"
-                                value="{{ old('date') }}" autofocus>
+                                value="{{ $date }}" autofocus>
                     
                             <span class="icon is-small is-right">
                                 <i class="fas fa-calendar"></i>

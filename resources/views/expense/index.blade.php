@@ -39,7 +39,7 @@
             </section><!-- modal-card-body -->
             
             <footer class="modal-card-foot">
-                <a href="{{ route('expense.create') }}" class="button is-primary is-outlined">New</a>
+                <a href="{{ route('expense.create', $date) }}" class="button is-primary is-outlined">New</a>
 
                 <a href="{{ route('summary') }}" class="button">Back</a>
             </footer><!-- modal-card-foot -->
