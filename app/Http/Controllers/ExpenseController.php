@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $date = Carbon::now()->format('Y-m-d');
