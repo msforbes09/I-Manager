@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Expense;
-use App\Http\Requests\ExpenseRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ExpenseRequest;
 
 class ExpenseController extends Controller
 {
@@ -15,7 +15,7 @@ class ExpenseController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
         $date = Carbon::now()->format('Y-m-d');
@@ -40,7 +40,7 @@ class ExpenseController extends Controller
             $request->only(['date', 'subject', 'amount', 'details'])
         );
 
-        
+
         return redirect()->route('expense.daily', $request->date)
             ->with('success', 'Success!');
     }

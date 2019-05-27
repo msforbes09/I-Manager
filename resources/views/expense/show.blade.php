@@ -3,12 +3,12 @@
 @section ('main')
     <div class="modal is-active">
         <div class="modal-background"></div>
-        
+
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">Expense: {{ $expense->subject }}</p>
             </header><!-- modal-card-head -->
-    
+
             <section class="modal-card-body">
                 {{ Breadcrumbs::render('expense-show', $expense) }}
 
@@ -19,7 +19,7 @@
                     <p class="subtitle">Details: {{ $expense->details }}</p>
                 </div>
             </section><!-- modal-card-body -->
-            
+
             <footer class="modal-card-foot">
                 <a href="{{ route('expense.daily', $expense->date) }}" class="button">Back</a>
             </footer><!-- modal-card-foot -->
