@@ -29,6 +29,11 @@ class ExpenseController extends Controller
         return view('expense.index', compact('expenses', 'date'));
     }
 
+    // public function expenses()
+    // {
+    //     return Auth::user()->expenses;
+    // }
+
     public function create($date)
     {
         return view('expense.create', compact('date'));

@@ -5,7 +5,7 @@
         <div class="hero-body">
             <div class="container">
                 <p class="title">Hello</p>
-        
+
                 <p class="subtitle">I am your personal manager</p>
 
                 <a href="{{ route('summary') }}" class="button is-primary is-outlined">Get Started</a>

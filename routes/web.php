@@ -24,3 +24,10 @@ Route::prefix('/expense')->name('expense.')->group(function () {
     Route::get('/date/{date}', 'ExpenseController@daily')->name('daily');
     Route::get('/date/{date}/create', 'ExpenseController@create')->name('create');
 });
+
+Route::prefix('api')->group(function () {
+    Route::post('/expense', 'Api\ExpenseController@index');
+});
+
+
+

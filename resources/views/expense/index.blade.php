@@ -3,12 +3,12 @@
 @section ('main')
     <div class="modal is-active">
         <div class="modal-background"></div>
-        
+
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">Expense Manager</p>
             </header><!-- modal-card-head -->
-    
+
             <section class="modal-card-body">
                 {{ Breadcrumbs::render('expense') }}
 
@@ -21,7 +21,7 @@
                             <th class="has-text-centered">Total Amount</th>
                         </tr>
                     </thead>
-                    
+
                     <tbody>
                         @foreach ($expenses as $expense)
                             <tr>
@@ -37,7 +37,7 @@
                     </tbody>
                 </table>
             </section><!-- modal-card-body -->
-            
+
             <footer class="modal-card-foot">
                 <a href="{{ route('expense.create', $date) }}" class="button is-primary is-outlined">New</a>
 
