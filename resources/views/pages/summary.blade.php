@@ -1,26 +1,57 @@
 @extends ('master.layout')
 
 @section ('main')
-    <div class="modal is-active">
-        <div class="modal-background"></div>
-        
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">Summary as of {{ date('M j, Y') }}</p>
-            </header><!-- modal-card-head -->
-    
-            <section class="modal-card-body">
-                {{ Breadcrumbs::render('summary') }}
+<v-card dark>
+    <v-card-title>
+        <h3 class="headline mb-0">Summary as of: {{ date('M j, Y') }}</h3>
+    </v-card-title>
 
-                <div class="content">
-                    <p class="subtitle">User : <strong>{{ $user->name }}</strong></p>                    
+    <v-list>
+        <v-divider></v-divider>
+        <v-list-tile>
+            <v-list-tile-content>
+                <v-list-tile-title>
+                    User:
+                    <span>{{ $user->name }}</span>
+                </v-list-tile-title>
+            </v-list-tile-content>
+        </v-list-tile>
 
-                    <p class="subtitle">Today's <a href="{{ route('income.index') }}">income</a> : <strong>Php {{$user->income}}</strong></p>                    
-                    <p class="subtitle">Today's <a href="{{ route('expense.index') }}">expenses</a> : <strong>Php {{ $user->expense }}</strong></p> 
+        <v-divider></v-divider>
+        <v-list-tile>
+            <v-list-tile-content>
+                <v-list-tile-title>
+                    Today's Income:
+                    <span>{{ $user->income }}</span>
+                </v-list-tile-title>
+            </v-list-tile-content>
+        </v-list-tile>
+        <v-divider></v-divider>
+        <v-list-tile>
+            <v-list-tile-content>
+                <v-list-tile-title>
+                    Today's Expenses:
+                    <span>{{ $user->expense }}</span>
+                </v-list-tile-title>
+            </v-list-tile-content>
+        </v-list-tile>
 
-                    <p class="subtitle">Cash on hand : <strong>Php {{ $user->onhand }}</strong></p>                    
-                </div>
-            </section><!-- modal-card-body -->
-        </div><!-- modal-card -->
-    </div><!-- modal -->
+        <v-divider></v-divider>
+        <v-list-tile>
+            <v-list-tile-content>
+                <v-list-tile-title>
+                    Cash on Hand:
+                    <span>{{ $user->onhand }}</span>
+                </v-list-tile-title>
+            </v-list-tile-content>
+        </v-list-tile>
+        <v-divider></v-divider>
+    </v-list>
+
+    <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn flat color="yellow" href="{{ route('income') }}">Incomes</v-btn>
+        <v-btn flat color="yellow" href="{{ route('expense') }}">Expenses</v-btn>
+    </v-card-actions>
+</v-card>
 @endsection

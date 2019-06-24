@@ -1,55 +1,46 @@
-@extends('master.layout')
+@extends('master.layout-secondary')
 
 @section('main')
-    <div class="modal is-active">
-        <div class="modal-background"></div>
-        
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="subtitle">Sign In</p>
-            </header><!-- modal-card-head -->
-            
-            <form method="POST" action="{{ route('login') }}">
+<div class="row">
+    <div class="col s12 offset-m3 m6">
+        <div class="card hoverable">
+            <form method="post" action="{{ route('login') }}">
                 @csrf
+                <div class="card-content">
+                    <div class="card-title">Sign In</div>
 
-                <section class="modal-card-body">
-                    <div class="field">
-                        <div class="control has-icons-right">
-                            <input type="text" id="email" name="email" placeholder="Email Address"
-                                class="input {{ $errors->has('email') ? ' is-danger' : '' }}"
-                                value="{{ old('email') }}" autofocus>
-                    
-                            <span class="icon is-small is-right">
-                                <i class="fas fa-user"></i>
-                            </span><!-- icon -->
-                        </div><!-- control -->
-                    
-                        <p class="help is-danger">{{ $errors->first('email') }}</p>
-                    </div><!-- field -->
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">account_circle</i>
+                            <input name="email" id="email" type="email" value="{{ old('email') }}" autofocus required>
+                            <label for="email">Email</label>
+                            @error('email')
+                                <span class="helper-text red-text">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
 
-                    <div class="field">
-                         <div class="control has-icons-right">
-                             <input type="password" id="password" name="password" placeholder="Password"
-                                 class="input {{ $errors->has('password') ? ' is-danger' : '' }}"
-                                 value="{{ old('password') }}">
-                     
-                             <span class="icon is-small is-right">
-                                 <i class="fas fa-lock"></i>
-                             </span><!-- icon -->
-                         </div><!-- control -->
-                     
-                         <p class="help is-danger">{{ $errors->first('password') }}</p>
-                     </div><!-- field -->         
-                </section><!-- modal-card-body -->
-                
-                <footer class="modal-card-foot">
-                    <button type="submit" class="button is-primary">Okay</button>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">lock_open</i>
+                            <input name="password" id="password" type="password" required>
+                            <label for="password">Password</label>
+                            @error('password')
+                                <span class="helper-text red-text">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
 
-                    {{-- <a class="btn btn-link" href="{{ route('password.request') }}">
-                        {{ __('Forgot Your Password?') }}
-                    </a> --}}
-                </footer><!-- modal-card-foot -->
+                <div class="card-action right-align">
+                    <button type="submit" class="btn-small indigo">Sign In</button>
+                </div>
             </form>
-        </div><!-- modal-card -->
-    </div><!-- modal -->
+        </div>
+    </div>
+</div>
 @endsection

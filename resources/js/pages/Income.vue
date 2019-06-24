@@ -2,13 +2,13 @@
   <div>
     <v-layout>
       <v-spacer></v-spacer>
-      <v-btn @click="newExpense(today)" class="primary">Add New</v-btn>
+      <v-btn @click="newIncome" class="primary">Add New</v-btn>
     </v-layout>
 
     <v-dialog v-model="form" persistent max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">New Expense</span>
+          <span class="headline">New Income</span>
         </v-card-title>
         <v-card-text @keydown="error.clear($event.target.name)">
           <v-container grid-list-md v-if="! loading">
@@ -16,7 +16,7 @@
               <v-text-field
                 name="subject"
                 label="Subject"
-                v-model="selectedExpense.subject"
+                v-model="selectedIncome.subject"
                 :error-messages="error.get('subject')"
                 autofocus
               ></v-text-field>
@@ -26,7 +26,7 @@
               <v-dialog
                 ref="dialog"
                 v-model="datepicker"
-                :return-value.sync="selectedExpense.date"
+                :return-value.sync="selectedIncome.date"
                 persistent
                 lazy
                 full-width
@@ -34,16 +34,16 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
-                    v-model="selectedExpense.date"
+                    v-model="selectedIncome.date"
                     label="Date"
                     :error-messages="error.get('date')"
                     readonly
                     v-on="on"
                   ></v-text-field>
                 </template>
-                <v-date-picker v-model="selectedExpense.date" scrollable>
+                <v-date-picker v-model="selectedIncome.date" scrollable>
                   <v-spacer></v-spacer>
-                  <v-btn flat color="primary" @click="$refs.dialog.save(selectedExpense.date)">OK</v-btn>
+                  <v-btn flat color="primary" @click="$refs.dialog.save(selectedIncome.date)">OK</v-btn>
                   <v-btn flat color="primary" @click="datepicker = false">Cancel</v-btn>
                 </v-date-picker>
               </v-dialog>
@@ -53,12 +53,12 @@
               <v-text-field
                 label="Amount"
                 name="amount"
-                v-model="selectedExpense.amount"
+                v-model="selectedIncome.amount"
                 :error-messages="error.get('amount')"
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-text-field label="Description" v-model="selectedExpense.details"></v-text-field>
+              <v-text-field label="Description" v-model="selectedIncome.details"></v-text-field>
             </v-flex>
           </v-container>
 
@@ -75,7 +75,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click="storeExpense">Save</v-btn>
+          <v-btn color="blue darken-1" flat @click="storeIncome">Save</v-btn>
           <v-btn color="blue darken-1" flat @click="form = false">Close</v-btn>
         </v-card-actions>
       </v-card>
@@ -84,57 +84,24 @@
     <v-dialog v-model="detail" max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline" v-text="selectedExpense.subject"></span>
+          <span class="headline" v-text="selectedIncome.subject"></span>
         </v-card-title>
 
         <v-list>
           <v-divider></v-divider>
-          <v-list-tile>Date : {{ selectedExpense.date }}</v-list-tile>
+          <v-list-tile>Date : {{ selectedIncome.date }}</v-list-tile>
 
           <v-divider></v-divider>
-          <v-list-tile>Amount : {{ selectedExpense.amount }}</v-list-tile>
+          <v-list-tile>Amount : {{ selectedIncome.amount }}</v-list-tile>
 
           <v-divider></v-divider>
-          <v-list-tile>Details : {{ selectedExpense.details }}</v-list-tile>
+          <v-list-tile>Details : {{ selectedIncome.details }}</v-list-tile>
           <v-divider></v-divider>
         </v-list>
 
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click="detail = false">Close</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog v-model="daily" max-width="800px">
-      <v-card>
-        <v-card-title>
-          <span class="headline" v-text="selectedDaily.date"></span>
-        </v-card-title>
-
-        <v-card-text>
-          <v-data-table
-            :headers="selectedDaily.headers"
-            :items="selectedDaily.expenses"
-            :rows-per-page-items="[10]"
-            class="elevation-1"
-            :loading="loading"
-            disable-initial-sort
-            dark
-          >
-            <template v-slot:items="props">
-              <td class="text-xs-center">{{ props.item.subject }}</td>
-              <td class="text-xs-center">{{ props.item.amount }}</td>
-              <td class="text-xs-right">
-                <v-icon small class="mr-2" @click="getExpense(props.item.id)">zoom_in</v-icon>
-              </td>
-            </template>
-          </v-data-table>
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn flat color="primary" @click="daily = false">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -149,20 +116,20 @@
 
     <v-data-table
       :headers="headers"
-      :items="expenses"
+      :items="incomes"
       :loading="loading"
       :pagination.sync="pagination"
-      :total-items="totalExpenses"
+      :total-items="totalIncomes"
       :rows-per-page-items="[10, 50, 100]"
       class="elevation-1"
       dark
     >
       <template v-slot:items="props">
-        <td class="text-xs-left">{{ props.item.date }}</td>
-        <td class="text-xs-left">{{ props.item.amount }}</td>
+        <td>{{props.item.date}}</td>
+        <td>{{props.item.subject}}</td>
+        <td>{{props.item.amount}}</td>
         <td class="text-xs-right">
-          <v-icon small class="mr-2" @click="getDailyExpense(props.item.date)">zoom_in</v-icon>
-          <v-icon small @click="newExpense(props.item.date)">add</v-icon>
+          <v-icon small @click="showIncome(props.item.id)">zoom_in</v-icon>
         </td>
       </template>
     </v-data-table>
@@ -179,92 +146,78 @@ export default {
         status: false,
         message: ""
       },
-      daily: false,
       datepicker: false,
       detail: false,
-      error: new Error(),
-      expenses: [],
       form: false,
       headers: [
         { text: "Date", align: "left", value: "date" },
+        { text: "Subject", align: "left", value: "subject" },
         { text: "Amount", align: "left", value: "amount" },
-        { text: "Action", align: "right", value: "action", sortable: false }
+        { text: "Actions", align: "right", value: "action", sortable: false }
       ],
-      loading: true,
+      incomes: [],
+      loading: false,
+      error: new Error(),
       pagination: {
         descending: true,
         sortBy: "date"
       },
-      selectedExpense: {},
-      selectedDaily: {
-        date: null,
-        expenses: [],
-        headers: [
-          { text: "Subject", align: "center", value: "subject" },
-          { text: "Amount", align: "center", value: "amount" },
-          { text: "Action", align: "right", value: "action", sortable: false }
-        ]
-      },
-      today: new Date().toISOString().substr(0, 10),
-      totalExpenses: 0
+      selectedIncome: {},
+      totalIncomes: 0
     };
   },
   watch: {
     pagination: {
       handler() {
-        this.getAllExpenses();
+        this.getAllIncomes();
       },
       deep: true
     }
   },
   methods: {
-    getAllExpenses() {
+    editIncome() {},
+    getAllIncomes() {
       this.loading = true;
-      axios.post("/api/expense", this.pagination).then(res => {
-        let expenses = res.data;
+      axios.post("/api/income", this.pagination).then(res => {
+        let incomes = res.data;
 
-        this.expenses = expenses.data;
-        this.totalExpenses = expenses.total;
+        this.incomes = incomes.data;
+        this.totalIncomes = incomes.total;
         this.loading = false;
       });
     },
-    getDailyExpense(date) {
-      this.loading = true;
-      axios.get(`/api/expense/date/${date}`).then(res => {
-        this.selectedDaily.date = date;
-        this.selectedDaily.expenses = res.data;
-        this.daily = true;
-        this.loading = false;
+    getIncome(income) {
+      return new Promise(function(resolve, reject) {
+        axios.get(`/api/income/${income}`).then(res => {
+          resolve(res);
+        });
       });
     },
-    getExpense(id) {
-      this.loading = true;
-      axios.get(`/api/expense/${id}`).then(res => {
-        this.selectedExpense = res.data;
-        this.detail = true;
-        this.loading = false;
-      });
-    },
-    newExpense(date) {
-      this.selectedExpense = {
-        date,
+    newIncome() {
+      this.selectedIncome = {
+        date: new Date().toISOString().substr(0, 10),
         subject: "",
         amount: null,
         description: ""
       };
       this.form = true;
     },
-    storeExpense() {
+    showIncome(income) {
+      this.getIncome(income).then(res => {
+        console.log(res);
+      });
+    },
+    storeIncome() {
       this.loading = true;
       axios
-        .post("/api/expense/store", this.selectedExpense)
+        .post("/api/income/store", this.selectedIncome)
         .then(res => {
           this.alert = {
             message: res.data.message,
             status: true
           };
           this.form = false;
-          this.getAllExpenses();
+          this.getAllIncomes();
         })
         .catch(err => {
           this.error.record(err.response.data.errors);
@@ -274,6 +227,3 @@ export default {
   }
 };
 </script>
-
-<style>
-</style>

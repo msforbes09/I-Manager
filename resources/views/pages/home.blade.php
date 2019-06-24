@@ -1,25 +1,19 @@
 @extends ('master.layout')
 
 @section ('main')
-    <section class="hero is-link is-bold is-fullheight">
-        <div class="hero-body">
-            <div class="container">
-                <p class="title">Hello</p>
+<v-jumbotron>
+    <v-container fill-height>
+        <v-layout align-center>
+            <v-flex>
+                <h3 class="display-3">Hello</h3>
 
-                <p class="subtitle">I am your personal manager</p>
+                <span class="subheading">I am your personal manager.</span>
 
-                <a href="{{ route('summary') }}" class="button is-primary is-outlined">Get Started</a>
+                <v-divider class="my-3"></v-divider>
 
-                <a class="button is-danger" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                    {{ __('Logout') }}
-                </a>
-
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            </div><!-- container -->
-        </div><!-- hero-body -->
-    </section><!-- hero -->
+                <v-btn class="mx-0" color="primary" large href="{{ route('summary') }}">Get Started</v-btn>
+            </v-flex>
+        </v-layout>
+    </v-container>
+</v-jumbotron>
 @endsection

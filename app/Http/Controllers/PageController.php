@@ -34,4 +34,14 @@ class PageController extends Controller
 
         return view('pages.summary', compact('user'));
     }
+
+    public function income()
+    {
+        return view('pages.income');
+    }
+
+    public function expense()
+    {
+        return view('pages.expense');
+    }
 }
