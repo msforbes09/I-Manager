@@ -188,7 +188,12 @@ export default {
       headers: [
         { text: "Date", align: "left", value: "date" },
         { text: "Amount", align: "left", value: "amount" },
-        { text: "Action", align: "right", value: "action", sortable: false }
+        {
+          text: "Action",
+          align: "right",
+          value: "action",
+          sortable: false
+        }
       ],
       loading: true,
       pagination: {
@@ -202,7 +207,12 @@ export default {
         headers: [
           { text: "Subject", align: "center", value: "subject" },
           { text: "Amount", align: "center", value: "amount" },
-          { text: "Action", align: "right", value: "action", sortable: false }
+          {
+            text: "Action",
+            align: "right",
+            value: "action",
+            sortable: false
+          }
         ]
       },
       today: new Date().toISOString().substr(0, 10),
@@ -220,7 +230,7 @@ export default {
   methods: {
     getAllExpenses() {
       this.loading = true;
-      axios.post("/api/expense", this.pagination).then(res => {
+      axios.post(`/${Prefix}/expense`, this.pagination).then(res => {
         let expenses = res.data;
 
         this.expenses = expenses.data;
@@ -230,7 +240,7 @@ export default {
     },
     getDailyExpense(date) {
       this.loading = true;
-      axios.get(`/api/expense/date/${date}`).then(res => {
+      axios.get(`/${Prefix}/expense/date/${date}`).then(res => {
         this.selectedDaily.date = date;
         this.selectedDaily.expenses = res.data;
         this.daily = true;
@@ -239,7 +249,7 @@ export default {
     },
     getExpense(id) {
       this.loading = true;
-      axios.get(`/api/expense/${id}`).then(res => {
+      axios.get(`/${Prefix}/expense/${id}`).then(res => {
         this.selectedExpense = res.data;
         this.detail = true;
         this.loading = false;
@@ -257,7 +267,7 @@ export default {
     storeExpense() {
       this.loading = true;
       axios
-        .post("/api/expense/store", this.selectedExpense)
+        .post(`/${Prefix}/expense/store`, this.selectedExpense)
         .then(res => {
           this.alert = {
             message: res.data.message,
