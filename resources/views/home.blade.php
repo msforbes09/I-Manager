@@ -8,19 +8,10 @@
     <title>I-Manager</title>
 </head>
 <body>
-    <div id="app">
-        <v-app>
-            @include ('master.navbar')
-            <drawer/>
-
-            <v-content>
-                <v-container>
-                    @yield ('main')
-                </v-container>
-            </v-content>
-        </v-app>
-    </div>
-
+    <div id="app"></div>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
     <script src="{{ asset('js/main.js') }}"></script>
 </body>
 </html>
