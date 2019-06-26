@@ -51,8 +51,8 @@
 
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn flat color="yellow" href>Incomes</v-btn>
-            <v-btn flat color="yellow" href>Expenses</v-btn>
+            <v-btn flat color="yellow" router to="/income">Incomes</v-btn>
+            <v-btn flat color="yellow" router to="/expense">Expenses</v-btn>
         </v-card-actions>
     </v-card>
 </template>

@@ -9,7 +9,7 @@
 
                     <v-divider class="my-3"></v-divider>
 
-                    <v-btn class="mx-0" color="primary" large href>Get Started</v-btn>
+                    <v-btn class="mx-0" color="primary" large router to="/summary">Get Started</v-btn>
                 </v-flex>
             </v-layout>
         </v-container>

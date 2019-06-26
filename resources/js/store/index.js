@@ -10,5 +10,13 @@ export default new Vuex.Store({
     modules: {
         income,
         expense
+    },
+    state: {
+        drawer: true
+    },
+    mutations: {
+        drawer(state, payload) {
+            state.drawer = payload
+        }
     }
 })

@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-toolbar app dark fixed clipped-left>
-            <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+            <v-toolbar-side-icon @click.stop="drawer"></v-toolbar-side-icon>
             <v-toolbar-title>IManager</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn flat color="grey" onclick="document.getElementById('logout-form').submit();">
@@ -13,5 +13,11 @@
 </template>
 
 <script>
-export default {}
+export default {
+    methods: {
+        drawer() {
+            this.$store.commit('drawer', !this.$store.state.drawer)
+        }
+    }
+}
 </script>
