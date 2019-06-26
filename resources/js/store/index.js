@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import income from './income/store'
-import expense from './expense/store'
+import income from './module/income'
+import expense from './module/expense'
 
 Vue.use(Vuex)
 

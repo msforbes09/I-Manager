@@ -5,10 +5,7 @@ export default {
         incomes: [],
         income: {},
         loading: false,
-        pagination: {
-            descending: true,
-            sortBy: 'date'
-        },
+        pagination: {},
         showIncome: false
     },
     mutations: {
@@ -41,7 +38,7 @@ export default {
                 state.commit('showIncome')
             })
         },
-        getIncomes(state, payload) {
+        getIncomes(state) {
             state.commit('loading')
             axios.post(`/${Prefix}/income`, state.state.pagination).then(res => {
                 state.commit('incomes', res.data)
