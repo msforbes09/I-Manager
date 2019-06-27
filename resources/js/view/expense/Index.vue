@@ -1,5 +1,6 @@
 <template>
     <div>
+        <alert/>
         <daily/>
         <show/>
         <v-layout>
@@ -32,6 +33,7 @@
 <script>
 export default {
     components: {
+        alert: require('./Alert.vue').default,
         create: require('./Create.vue').default,
         daily: require('./Daily.vue').default,
         search: require('./search.vue').default,

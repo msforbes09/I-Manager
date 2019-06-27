@@ -1,7 +1,7 @@
 export default {
     namespaced: true,
     state: {
-        alert: {},
+        alert: '',
         incomes: [],
         income: {},
         loading: false,
@@ -10,8 +10,8 @@ export default {
     },
     mutations: {
         alert(state, payload) {
+            state.alert = ''
             state.alert = payload
-            setTimeout(() => (state.alert = {}), 5000)
         },
         income(state, payload) {
             state.income = payload
@@ -50,10 +50,7 @@ export default {
                 axios
                     .post(`/${Prefix}/income/store`, payload)
                     .then(res => {
-                        state.commit('alert', {
-                            message: res.data.message,
-                            status: true
-                        })
+                        state.commit('alert', res.data.message)
                         state.dispatch('getIncomes')
                         resolve(res)
                     })

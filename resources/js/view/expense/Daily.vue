@@ -4,7 +4,6 @@
             <v-card-title>
                 <span class="headline" v-text="date"></span>
             </v-card-title>
-            <alert/>
             <v-data-table
                 :headers="headers"
                 :loading="loading"
@@ -32,9 +31,6 @@
 
 <script>
 export default {
-    components: {
-        alert: require('./Alert.vue').default
-    },
     computed: {
         date() {
             return this.$store.state.expense.activeDate

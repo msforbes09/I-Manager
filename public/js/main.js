@@ -2143,10 +2143,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: {
     alert: function alert() {
       return this.$store.state.expense.alert;
+    }
+  },
+  data: function data() {
+    return {
+      snackbar: false,
+      timeout: 6000
+    };
+  },
+  watch: {
+    alert: {
+      handler: function handler() {
+        this.snackbar = true;
+      },
+      deep: true
     }
   }
 });
@@ -2279,10 +2300,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$store.dispatch('expense/getDaily', _this.newExpense.date);
 
-        _this.$store.commit('expense/alert', {
-          message: res.data.message,
-          status: true
-        });
+        _this.$store.commit('expense/alert', res.data.message);
       })["catch"](function (err) {
         _this.error.record(err.response.data.errors);
       });
@@ -2341,11 +2359,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    alert: __webpack_require__(/*! ./Alert.vue */ "./resources/js/view/expense/Alert.vue")["default"]
-  },
   computed: {
     date: function date() {
       return this.$store.state.expense.activeDate;
@@ -2445,8 +2459,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
+    alert: __webpack_require__(/*! ./Alert.vue */ "./resources/js/view/expense/Alert.vue")["default"],
     create: __webpack_require__(/*! ./Create.vue */ "./resources/js/view/expense/Create.vue")["default"],
     daily: __webpack_require__(/*! ./Daily.vue */ "./resources/js/view/expense/Daily.vue")["default"],
     search: __webpack_require__(/*! ./search.vue */ "./resources/js/view/expense/search.vue")["default"],
@@ -2707,10 +2723,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: {
     alert: function alert() {
       return this.$store.state.income.alert;
+    }
+  },
+  data: function data() {
+    return {
+      snackbar: false,
+      timeout: 6000
+    };
+  },
+  watch: {
+    alert: {
+      handler: function handler() {
+        this.snackbar = true;
+      },
+      deep: true
     }
   }
 });
@@ -21711,16 +21748,35 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-alert",
+    "v-snackbar",
     {
       attrs: {
-        value: _vm.alert.status,
-        type: "success",
-        icon: "check_circle",
-        transition: "scale-transition"
+        "multi-line": "",
+        right: "",
+        top: "",
+        timeout: _vm.timeout,
+        color: "blue-grey darken-3"
+      },
+      model: {
+        value: _vm.snackbar,
+        callback: function($$v) {
+          _vm.snackbar = $$v
+        },
+        expression: "snackbar"
       }
     },
-    [_vm._v(_vm._s(_vm.alert.message))]
+    [
+      _c(
+        "span",
+        [
+          _c("v-icon", { staticClass: "yellow--text" }, [
+            _vm._v("check_circle")
+          ]),
+          _vm._v("\n        " + _vm._s(_vm.alert) + "\n    ")
+        ],
+        1
+      )
+    ]
   )
 }
 var staticRenderFns = []
@@ -22068,8 +22124,6 @@ var render = function() {
             })
           ]),
           _vm._v(" "),
-          _c("alert"),
-          _vm._v(" "),
           _c("v-data-table", {
             attrs: {
               headers: _vm.headers,
@@ -22182,6 +22236,8 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("alert"),
+      _vm._v(" "),
       _c("daily"),
       _vm._v(" "),
       _c("show"),
@@ -22557,16 +22613,35 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-alert",
+    "v-snackbar",
     {
       attrs: {
-        value: _vm.alert.status,
-        type: "success",
-        icon: "check_circle",
-        transition: "scale-transition"
+        "multi-line": "",
+        right: "",
+        top: "",
+        timeout: _vm.timeout,
+        color: "blue-grey darken-3"
+      },
+      model: {
+        value: _vm.snackbar,
+        callback: function($$v) {
+          _vm.snackbar = $$v
+        },
+        expression: "snackbar"
       }
     },
-    [_vm._v(_vm._s(_vm.alert.message))]
+    [
+      _c(
+        "span",
+        [
+          _c("v-icon", { staticClass: "yellow--text" }, [
+            _vm._v("check_circle")
+          ]),
+          _vm._v("\n        " + _vm._s(_vm.alert) + "\n    ")
+        ],
+        1
+      )
+    ]
   )
 }
 var staticRenderFns = []
@@ -65448,7 +65523,7 @@ __webpack_require__.r(__webpack_exports__);
   namespaced: true,
   state: {
     activeDate: null,
-    alert: {},
+    alert: '',
     expense: {},
     expensesDaily: [],
     expenses: {},
@@ -65463,10 +65538,8 @@ __webpack_require__.r(__webpack_exports__);
       state.activeDate = payload;
     },
     alert: function alert(state, payload) {
+      state.alert = '';
       state.alert = payload;
-      setTimeout(function () {
-        return state.alert = {};
-      }, 5000);
     },
     expense: function expense(state, payload) {
       state.expense = payload;
@@ -65552,7 +65625,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
   state: {
-    alert: {},
+    alert: '',
     incomes: [],
     income: {},
     loading: false,
@@ -65561,10 +65634,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   mutations: {
     alert: function alert(state, payload) {
+      state.alert = '';
       state.alert = payload;
-      setTimeout(function () {
-        return state.alert = {};
-      }, 5000);
     },
     income: function income(state, payload) {
       state.income = payload;
@@ -65601,10 +65672,7 @@ __webpack_require__.r(__webpack_exports__);
     store: function store(state, payload) {
       return new Promise(function (resolve, reject) {
         axios.post("/".concat(Prefix, "/income/store"), payload).then(function (res) {
-          state.commit('alert', {
-            message: res.data.message,
-            status: true
-          });
+          state.commit('alert', res.data.message);
           state.dispatch('getIncomes');
           resolve(res);
         })["catch"](function (err) {

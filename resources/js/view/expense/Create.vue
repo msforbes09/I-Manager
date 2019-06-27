@@ -114,10 +114,7 @@ export default {
                 .then(res => {
                     this.show = false
                     this.$store.dispatch('expense/getDaily', this.newExpense.date)
-                    this.$store.commit('expense/alert', {
-                        message: res.data.message,
-                        status: true
-                    })
+                    this.$store.commit('expense/alert', res.data.message)
                 })
                 .catch(err => {
                     this.error.record(err.response.data.errors)

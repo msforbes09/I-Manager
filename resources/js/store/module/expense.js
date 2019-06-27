@@ -2,7 +2,7 @@ export default {
     namespaced: true,
     state: {
         activeDate: null,
-        alert: {},
+        alert: '',
         expense: {},
         expensesDaily: [],
         expenses: {},
@@ -17,8 +17,8 @@ export default {
             state.activeDate = payload
         },
         alert(state, payload) {
+            state.alert = ''
             state.alert = payload
-            setTimeout(() => (state.alert = {}), 5000)
         },
         expense(state, payload) {
             state.expense = payload
