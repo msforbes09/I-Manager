@@ -1,9 +1,6 @@
 <template>
     <div>
-        <v-layout>
-            <v-spacer></v-spacer>
-            <v-btn @click="create" class="primary">Add New</v-btn>
-        </v-layout>
+        <v-btn @click="create" class="primary">Add New</v-btn>
 
         <v-dialog v-model="show" persistent max-width="600px">
             <v-card>

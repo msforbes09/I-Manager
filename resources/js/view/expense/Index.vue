@@ -1,8 +1,12 @@
 <template>
     <div>
-        <create/>
         <daily/>
         <show/>
+        <v-layout>
+            <v-spacer></v-spacer>
+            <create/>
+            <search/>
+        </v-layout>
         <v-data-table
             :headers="headers"
             :items="expenses"
@@ -30,6 +34,7 @@ export default {
     components: {
         create: require('./Create.vue').default,
         daily: require('./Daily.vue').default,
+        search: require('./search.vue').default,
         show: require('./show.vue').default
     },
     computed: {

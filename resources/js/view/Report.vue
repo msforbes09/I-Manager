@@ -1,11 +1,11 @@
 <template>
     <v-card dark>
+        <v-progress-linear :indeterminate="true" v-if="loading" height="5" class="ma-0"></v-progress-linear>
         <v-card-title>
             <h3 class="headline mb-0">Summary as of: {{ now }}</h3>
         </v-card-title>
 
         <v-card-text>
-            <v-progress-linear :indeterminate="true" v-if="loading" height="2"></v-progress-linear>
             <v-list>
                 <v-divider></v-divider>
                 <v-list-tile>

@@ -1,34 +1,30 @@
 <template>
-    <v-dialog v-model="show" max-width="800px" persistent>
-        <v-card>
+    <v-dialog v-model="show" max-width="1000px" persistent>
+        <v-card dark>
             <v-card-title>
                 <span class="headline" v-text="date"></span>
             </v-card-title>
-            <v-card-text>
-                <alert/>
-                <v-data-table
-                    :headers="headers"
-                    :loading="loading"
-                    :items="expenses"
-                    :rows-per-page-items="[10]"
-                    class="elevation-1"
-                    disable-initial-sort
-                    dark
-                >
-                    <template v-slot:items="props">
-                        <td class="text-xs-left">{{ props.item.date }}</td>
-                        <td class="text-xs-left">{{ props.item.subject }}</td>
-                        <td class="text-xs-left">{{ props.item.amount }}</td>
-                        <td class="text-xs-right">
-                            <v-icon small class="mr-2" @click="showExpense(props.item.id)">zoom_in</v-icon>
-                        </td>
-                    </template>
-                </v-data-table>
-            </v-card-text>
+            <alert/>
+            <v-data-table
+                :headers="headers"
+                :loading="loading"
+                :items="expenses"
+                :rows-per-page-items="[10]"
+                disable-initial-sort
+            >
+                <template v-slot:items="props">
+                    <td class="text-xs-left">{{ props.item.date }}</td>
+                    <td class="text-xs-left">{{ props.item.subject }}</td>
+                    <td class="text-xs-left">{{ props.item.amount }}</td>
+                    <td class="text-xs-right">
+                        <v-icon small class="mr-2" @click="showExpense(props.item.id)">zoom_in</v-icon>
+                    </td>
+                </template>
+            </v-data-table>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" flat @click="create">New</v-btn>
-                <v-btn color="blue darken-1" flat @click="show = false">Close</v-btn>
+                <v-btn color="yellow" flat @click="create">New</v-btn>
+                <v-btn color="yellow" flat @click="show = false">Close</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

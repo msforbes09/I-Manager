@@ -15,6 +15,7 @@ Route::prefix(config('app.api_prefix'))->group(function () {
     Route::post('/expense', 'Api\ExpenseController@index');
     Route::post('/expense/store', 'Api\ExpenseController@store');
     Route::get('/expense/date/{date}', 'Api\ExpenseController@daily');
+    Route::post('/expense/search', 'Api\ExpenseController@search');
     Route::get('/expense/{expense}', 'Api\ExpenseController@show');
 
     Route::post('/income', 'Api\IncomeController@index');

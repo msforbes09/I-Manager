@@ -48,4 +48,18 @@ class ExpenseController extends Controller
     {
         return $expense;
     }
+
+    public function search(Request $request)
+    {
+        $sort = $request->get('sortBy') ? $request->get('sortBy') : 'id';
+        $order = $request->get('descending') ? 'desc' : 'asc';
+
+        return Auth::user()->expenses()
+            ->where(function ($query) use ($request) {
+                $query->where('subject', 'like', '%' . $request->get('search') . '%')
+                    ->orWhere('details', 'like', '%' . $request->get('search') . '%');
+            })
+            ->orderBy($sort, $order)
+            ->paginate(10);
+    }
 }
