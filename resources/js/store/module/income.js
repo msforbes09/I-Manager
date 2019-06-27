@@ -38,9 +38,9 @@ export default {
                 state.commit('showIncome')
             })
         },
-        getIncomes(state) {
+        getIncomes(state, payload) {
             state.commit('loading')
-            axios.post(`/${Prefix}/income`, state.state.pagination).then(res => {
+            axios.post(`/${Prefix}/income`, payload).then(res => {
                 state.commit('incomes', res.data)
                 state.commit('loading')
             })

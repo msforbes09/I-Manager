@@ -21,6 +21,10 @@ class IncomeController extends Controller
         $order = $request->get('descending') ? 'desc' : 'asc';
 
         return $incomes = Auth::user()->incomes()
+            ->where(function ($query) use ($request) {
+                $query->where('subject', 'like', '%' . $request->get('search') . '%')
+                    ->orWhere('details', 'like', '%' . $request->get('search') . '%');
+            })
             ->orderBy($sort, $order)
             ->paginate($request->get('rowsPerPage'));
     }

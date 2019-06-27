@@ -51,7 +51,7 @@
 <script>
 export default {
     created() {
-        this.debouncedSearch = _.debounce(this.search, 1000)
+        this.debouncedSearch = _.debounce(this.search, 500)
     },
     data() {
         return {
@@ -71,18 +71,16 @@ export default {
     },
     methods: {
         search() {
-            axios
-                .post(`/${Prefix}/expense/search`, {
+            this.$store
+                .dispatch('expense/search', {
                     search: this.searchItem,
                     page: this.pagination.page,
                     sortBy: this.pagination.sortBy,
                     descending: this.pagination.descending
                 })
                 .then(res => {
-                    let expenses = res.data
-
-                    this.expenses = expenses.data
-                    this.totalItems = expenses.total
+                    this.expenses = res.data
+                    this.totalItems = res.total
                     this.loading = false
                 })
         }

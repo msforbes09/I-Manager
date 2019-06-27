@@ -2569,7 +2569,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
-    this.debouncedSearch = _.debounce(this.search, 1000);
+    this.debouncedSearch = _.debounce(this.search, 500);
   },
   data: function data() {
     return {
@@ -2603,15 +2603,14 @@ __webpack_require__.r(__webpack_exports__);
     search: function search() {
       var _this = this;
 
-      axios.post("/".concat(Prefix, "/expense/search"), {
+      this.$store.dispatch('expense/search', {
         search: this.searchItem,
         page: this.pagination.page,
         sortBy: this.pagination.sortBy,
         descending: this.pagination.descending
       }).then(function (res) {
-        var expenses = res.data;
-        _this.expenses = expenses.data;
-        _this.totalItems = expenses.total;
+        _this.expenses = res.data;
+        _this.totalItems = res.total;
         _this.loading = false;
       });
     }
@@ -2882,6 +2881,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     alert: __webpack_require__(/*! ./Alert.vue */ "./resources/js/view/income/Alert.vue")["default"],
@@ -2898,6 +2916,9 @@ __webpack_require__.r(__webpack_exports__);
     totalItems: function totalItems() {
       return this.$store.state.income.incomes.total;
     }
+  },
+  created: function created() {
+    this.search = _.debounce(this.getIncomes, 1000);
   },
   data: function data() {
     return {
@@ -2922,19 +2943,34 @@ __webpack_require__.r(__webpack_exports__);
       pagination: {
         descending: true,
         sortBy: 'date'
-      }
+      },
+      searchItem: ''
     };
   },
   methods: {
     showIncome: function showIncome(id) {
       this.$store.dispatch('income/getIncome', id);
+    },
+    getIncomes: function getIncomes() {
+      this.$store.dispatch('income/getIncomes', {
+        search: this.searchItem,
+        page: this.pagination.page,
+        sortBy: this.pagination.sortBy,
+        descending: this.pagination.descending
+      });
     }
   },
   watch: {
     pagination: {
       handler: function handler() {
         this.$store.commit('income/pagination', this.pagination);
-        this.$store.dispatch('income/getIncomes');
+        this.getIncomes();
+      },
+      deep: true
+    },
+    searchItem: {
+      handler: function handler() {
+        this.search();
       },
       deep: true
     }
@@ -22864,56 +22900,107 @@ var render = function() {
       _vm._v(" "),
       _c("alert"),
       _vm._v(" "),
-      _c("v-data-table", {
-        attrs: {
-          headers: _vm.headers,
-          items: _vm.incomes,
-          loading: _vm.loading,
-          pagination: _vm.pagination,
-          "total-items": _vm.totalItems,
-          "rows-per-page-items": [10, 50, 100],
-          dark: ""
-        },
-        on: {
-          "update:pagination": function($event) {
-            _vm.pagination = $event
-          }
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "items",
-            fn: function(props) {
-              return [
-                _c("td", [_vm._v(_vm._s(props.item.date))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(props.item.subject))]),
-                _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(props.item.amount))]),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  { staticClass: "text-xs-right" },
-                  [
+      _c(
+        "v-card",
+        { attrs: { dark: "" } },
+        [
+          _c(
+            "v-card-title",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c("v-text-field", {
+                attrs: {
+                  "append-icon": "search",
+                  label: "Search",
+                  "single-line": "",
+                  "hide-details": ""
+                },
+                model: {
+                  value: _vm.searchItem,
+                  callback: function($$v) {
+                    _vm.searchItem = $$v
+                  },
+                  expression: "searchItem"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-data-table", {
+            attrs: {
+              headers: _vm.headers,
+              items: _vm.incomes,
+              loading: _vm.loading,
+              pagination: _vm.pagination,
+              "total-items": _vm.totalItems,
+              "rows-per-page-items": [10, 50, 100]
+            },
+            on: {
+              "update:pagination": function($event) {
+                _vm.pagination = $event
+              }
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "no-data",
+                fn: function() {
+                  return [
                     _c(
-                      "v-icon",
+                      "v-alert",
                       {
-                        attrs: { small: "" },
-                        on: {
-                          click: function($event) {
-                            return _vm.showIncome(props.item.id)
-                          }
-                        }
+                        attrs: { value: true, color: "error", icon: "warning" }
                       },
-                      [_vm._v("zoom_in")]
+                      [
+                        _vm._v(
+                          'Your search for "' +
+                            _vm._s(_vm.searchItem) +
+                            '" found no results.'
+                        )
+                      ]
                     )
-                  ],
-                  1
-                )
-              ]
-            }
-          }
-        ])
-      })
+                  ]
+                },
+                proxy: true
+              },
+              {
+                key: "items",
+                fn: function(props) {
+                  return [
+                    _c("td", [_vm._v(_vm._s(props.item.date))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(props.item.subject))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(props.item.amount))]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "text-xs-right" },
+                      [
+                        _c(
+                          "v-icon",
+                          {
+                            attrs: { small: "" },
+                            on: {
+                              click: function($event) {
+                                return _vm.showIncome(props.item.id)
+                              }
+                            }
+                          },
+                          [_vm._v("zoom_in")]
+                        )
+                      ],
+                      1
+                    )
+                  ]
+                }
+              }
+            ])
+          })
+        ],
+        1
+      )
     ],
     1
   )
@@ -65431,6 +65518,13 @@ __webpack_require__.r(__webpack_exports__);
         state.commit('loading');
       });
     },
+    search: function search(state, payload) {
+      return new Promise(function (resolve) {
+        axios.post("/".concat(Prefix, "/expense/search"), payload).then(function (res) {
+          resolve(res.data);
+        });
+      });
+    },
     store: function store(state, payload) {
       return new Promise(function (resolve, reject) {
         axios.post("/".concat(Prefix, "/expense/store"), payload).then(function (res) {
@@ -65497,9 +65591,9 @@ __webpack_require__.r(__webpack_exports__);
         state.commit('showIncome');
       });
     },
-    getIncomes: function getIncomes(state) {
+    getIncomes: function getIncomes(state, payload) {
       state.commit('loading');
-      axios.post("/".concat(Prefix, "/income"), state.state.pagination).then(function (res) {
+      axios.post("/".concat(Prefix, "/income"), payload).then(function (res) {
         state.commit('incomes', res.data);
         state.commit('loading');
       });

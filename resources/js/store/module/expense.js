@@ -70,8 +70,15 @@ export default {
                 state.commit('loading')
             })
         },
+        search(state, payload) {
+            return new Promise(resolve => {
+                axios.post(`/${Prefix}/expense/search`, payload).then(res => {
+                    resolve(res.data)
+                })
+            })
+        },
         store(state, payload) {
-            return new Promise(function(resolve, reject) {
+            return new Promise((resolve, reject) => {
                 axios
                     .post(`/${Prefix}/expense/store`, payload)
                     .then(res => {
