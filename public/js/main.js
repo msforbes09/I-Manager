@@ -2583,6 +2583,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     this.debouncedSearch = _.debounce(this.search, 500);
@@ -2841,9 +2842,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2937,6 +2935,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     alert: __webpack_require__(/*! ./Alert.vue */ "./resources/js/view/income/Alert.vue")["default"],
@@ -2955,7 +2954,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.search = _.debounce(this.getIncomes, 1000);
+    this.search = _.debounce(this.getIncomes, 500);
   },
   data: function data() {
     return {
@@ -22377,14 +22376,13 @@ var render = function() {
               _c(
                 "v-card-title",
                 [
-                  _c("v-spacer"),
-                  _vm._v(" "),
                   _c("v-text-field", {
                     attrs: {
                       "append-icon": "search",
                       label: "Search",
                       "single-line": "",
-                      "hide-details": ""
+                      "hide-details": "",
+                      outline: ""
                     },
                     model: {
                       value: _vm.searchItem,
@@ -22393,7 +22391,9 @@ var render = function() {
                       },
                       expression: "searchItem"
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _c("v-spacer")
                 ],
                 1
               ),
@@ -22472,7 +22472,7 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
-                      attrs: { color: "blue darken-1", flat: "" },
+                      attrs: { color: "yellow darken-1", flat: "" },
                       on: {
                         click: function($event) {
                           _vm.show = false
@@ -22669,17 +22669,9 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "v-layout",
-        [
-          _c("v-spacer"),
-          _vm._v(" "),
-          _c("v-btn", { staticClass: "primary", on: { click: _vm.create } }, [
-            _vm._v("Add New")
-          ])
-        ],
-        1
-      ),
+      _c("v-btn", { staticClass: "primary", on: { click: _vm.create } }, [
+        _vm._v("Add New")
+      ]),
       _vm._v(" "),
       _c(
         "v-dialog",
@@ -22969,40 +22961,42 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("create"),
-      _vm._v(" "),
       _c("showincome"),
       _vm._v(" "),
       _c("alert"),
       _vm._v(" "),
       _c(
+        "v-layout",
+        { staticClass: "mb-2" },
+        [
+          _c("v-text-field", {
+            attrs: {
+              "append-icon": "search",
+              label: "Search",
+              "single-line": "",
+              "hide-details": "",
+              outline: ""
+            },
+            model: {
+              value: _vm.searchItem,
+              callback: function($$v) {
+                _vm.searchItem = $$v
+              },
+              expression: "searchItem"
+            }
+          }),
+          _vm._v(" "),
+          _c("v-spacer"),
+          _vm._v(" "),
+          _c("create")
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "v-card",
         { attrs: { dark: "" } },
         [
-          _c(
-            "v-card-title",
-            [
-              _c("v-spacer"),
-              _vm._v(" "),
-              _c("v-text-field", {
-                attrs: {
-                  "append-icon": "search",
-                  label: "Search",
-                  "single-line": "",
-                  "hide-details": ""
-                },
-                model: {
-                  value: _vm.searchItem,
-                  callback: function($$v) {
-                    _vm.searchItem = $$v
-                  },
-                  expression: "searchItem"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
           _c("v-data-table", {
             attrs: {
               headers: _vm.headers,
@@ -65466,11 +65460,12 @@ var routes = [{
   name: '404',
   component: _components_404_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
 }];
-/* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
   routes: routes,
   linkActiveClass: 'blue'
-}));
+});
+/* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),
 
@@ -65634,7 +65629,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   mutations: {
     alert: function alert(state, payload) {
-      state.alert = '';
+      state.alert = ''; // reset
+
       state.alert = payload;
     },
     income: function income(state, payload) {

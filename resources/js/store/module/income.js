@@ -10,7 +10,7 @@ export default {
     },
     mutations: {
         alert(state, payload) {
-            state.alert = ''
+            state.alert = '' // reset
             state.alert = payload
         },
         income(state, payload) {

@@ -5,14 +5,15 @@
         <v-dialog v-model="show" persistent max-width="1000px">
             <v-card dark>
                 <v-card-title>
-                    <v-spacer></v-spacer>
                     <v-text-field
                         v-model="searchItem"
                         append-icon="search"
                         label="Search"
                         single-line
                         hide-details
+                        outline
                     ></v-text-field>
+                    <v-spacer></v-spacer>
                 </v-card-title>
 
                 <v-data-table
@@ -41,7 +42,7 @@
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat @click="show = false">Close</v-btn>
+                    <v-btn color="yellow darken-1" flat @click="show = false">Close</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>

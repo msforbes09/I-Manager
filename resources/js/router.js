@@ -17,8 +17,10 @@ const routes = [
     { path: '/*', name: '404', component: None }
 ]
 
-export default new Router({
+const router = new Router({
     mode: 'history',
     routes,
     linkActiveClass: 'blue'
 })
+
+export default router

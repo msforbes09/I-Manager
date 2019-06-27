@@ -1,20 +1,21 @@
 <template>
     <div>
-        <create/>
         <showincome/>
         <alert/>
+        <v-layout class="mb-2">
+            <v-text-field
+                v-model="searchItem"
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+                outline
+            ></v-text-field>
+            <v-spacer></v-spacer>
+            <create/>
+        </v-layout>
 
         <v-card dark>
-            <v-card-title>
-                <v-spacer></v-spacer>
-                <v-text-field
-                    v-model="searchItem"
-                    append-icon="search"
-                    label="Search"
-                    single-line
-                    hide-details
-                ></v-text-field>
-            </v-card-title>
             <v-data-table
                 :headers="headers"
                 :items="incomes"
@@ -62,7 +63,7 @@ export default {
         }
     },
     created() {
-        this.search = _.debounce(this.getIncomes, 1000)
+        this.search = _.debounce(this.getIncomes, 500)
     },
     data() {
         return {
