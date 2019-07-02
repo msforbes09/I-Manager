@@ -65597,6 +65597,7 @@ __webpack_require__.r(__webpack_exports__);
       return new Promise(function (resolve, reject) {
         axios.post("/".concat(Prefix, "/expense/store"), payload).then(function (res) {
           state.dispatch('getExpenses');
+          state.commit('activeDate', payload.date);
           resolve(res);
         })["catch"](function (err) {
           reject(err);

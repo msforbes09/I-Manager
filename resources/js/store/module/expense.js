@@ -83,6 +83,7 @@ export default {
                     .post(`/${Prefix}/expense/store`, payload)
                     .then(res => {
                         state.dispatch('getExpenses')
+                        state.commit('activeDate', payload.date)
                         resolve(res)
                     })
                     .catch(err => {
