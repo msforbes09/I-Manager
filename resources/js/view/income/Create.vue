@@ -1,14 +1,12 @@
 <template>
-    <div>
-        <v-btn @click="create" class="primary">Add New</v-btn>
-
-        <v-dialog v-model="show" persistent max-width="600px">
-            <v-card>
-                <v-card-title>
-                    <span class="headline">New Income</span>
-                </v-card-title>
-
-                <v-card-text @keydown="error.clear($event.target.name)">
+    <v-dialog v-model="show" :persistent="loading" max-width="600px">
+        <v-card>
+            <v-card-title>
+                <span class="headline">New Income</span>
+            </v-card-title>
+            <v-divider></v-divider>
+            <form @submit.prevent="store" @keydown="error.clear($event.target.name)">
+                <v-card-text>
                     <v-container grid-list-md>
                         <v-flex xs12>
                             <v-text-field
@@ -16,7 +14,6 @@
                                 label="Subject"
                                 v-model="newIncome.subject"
                                 :error-messages="error.get('subject')"
-                                autofocus
                             ></v-text-field>
                         </v-flex>
 
@@ -64,34 +61,47 @@
                         </v-flex>
                     </v-container>
                 </v-card-text>
+                <v-divider></v-divider>
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat @click="store">Save</v-btn>
-                    <v-btn color="blue darken-1" flat @click="show = false">Close</v-btn>
+                    <v-btn type="submit" color="indigo" dark :loading="loading">Save</v-btn>
+                    <v-btn color="deep-orange" dark :disabled="loading" @click="show = false">Close</v-btn>
                 </v-card-actions>
-            </v-card>
-        </v-dialog>
-    </div>
+            </form>
+        </v-card>
+    </v-dialog>
 </template>
 
 <script>
 import Error from './../../helper/Error.js'
 
 export default {
+    computed: {
+        show: {
+            get() {
+                return this.$store.getters.createIncome
+            },
+            set(arg) {
+                this.$store.commit('createIncome', arg)
+            }
+        },
+        error() {
+            return this.$store.getters.error
+        },
+        loading() {
+            return this.$store.getters.loading
+        }
+    },
     data() {
         return {
             datepicker: false,
-            error: new Error(),
-            loading: false,
-            newIncome: {},
-            show: false
+            newIncome: {}
         }
     },
     methods: {
-        create() {
-            this.reset()
-            this.show = true
+        store() {
+            this.$store.dispatch('storeIncome', this.newIncome)
         },
         reset() {
             this.error.reset()
@@ -101,16 +111,11 @@ export default {
                 amount: null,
                 description: ''
             }
-        },
-        store() {
-            this.$store
-                .dispatch('income/store', this.newIncome)
-                .then(res => {
-                    this.show = false
-                })
-                .catch(err => {
-                    this.error.record(err.response.data.errors)
-                })
+        }
+    },
+    watch: {
+        show(val) {
+            if (val) this.reset()
         }
     }
 }

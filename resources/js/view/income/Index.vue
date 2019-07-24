@@ -1,7 +1,7 @@
 <template>
     <div>
-        <showincome/>
-        <alert/>
+        <showIncome />
+        <create />
         <v-layout class="mb-2">
             <v-text-field
                 v-model="searchItem"
@@ -10,9 +10,11 @@
                 single-line
                 hide-details
                 outline
+                clearable
+                autofocus
             ></v-text-field>
             <v-spacer></v-spacer>
-            <create/>
+            <v-btn @click="create" class="primary">Add New</v-btn>
         </v-layout>
 
         <v-card dark>
@@ -47,19 +49,18 @@
 <script>
 export default {
     components: {
-        alert: require('./Alert.vue').default,
         create: require('./Create.vue').default,
-        showincome: require('./Show.vue').default
+        showIncome: require('./Show.vue').default
     },
     computed: {
         incomes() {
-            return this.$store.state.income.incomes.data
+            return this.$store.getters.incomes.data
         },
         loading() {
-            return this.$store.state.income.loading
+            return this.$store.getters.loading
         },
         totalItems() {
-            return this.$store.state.income.incomes.total
+            return this.$store.state.incomes.total
         }
     },
     created() {
@@ -78,31 +79,31 @@ export default {
         }
     },
     methods: {
+        create() {
+            this.$store.commit('createIncome', true)
+        },
         showIncome(id) {
-            this.$store.dispatch('income/getIncome', id)
+            this.$store.dispatch('showIncome', id)
         },
         getIncomes() {
-            this.$store.dispatch('income/getIncomes', {
+            this.$store.dispatch('getIncomes', {
                 search: this.searchItem,
                 page: this.pagination.page,
                 sortBy: this.pagination.sortBy,
-                descending: this.pagination.descending
+                descending: this.pagination.descending,
+                rowsPerPage: this.pagination.rowsPerPage
             })
         }
     },
     watch: {
         pagination: {
             handler() {
-                this.$store.commit('income/pagination', this.pagination)
                 this.getIncomes()
             },
             deep: true
         },
-        searchItem: {
-            handler() {
-                this.search()
-            },
-            deep: true
+        searchItem() {
+            this.search()
         }
     }
 }

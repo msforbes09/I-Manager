@@ -34,7 +34,7 @@ class ExpenseController extends Controller
             $request->only(['date', 'subject', 'amount', 'details'])
         );
 
-        return ['message' => 'Success!'];
+        return ['message' => 'Expense successfully recorded!'];
     }
 
     public function daily($date)

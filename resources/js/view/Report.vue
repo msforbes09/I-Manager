@@ -51,32 +51,29 @@
 
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn flat color="yellow" router to="/income">Incomes</v-btn>
-            <v-btn flat color="yellow" router to="/expense">Expenses</v-btn>
+            <v-btn light color="yellow" router to="/income">Incomes</v-btn>
+            <v-btn light color="yellow" router to="/expense">Expenses</v-btn>
         </v-card-actions>
     </v-card>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            loading: false,
-            now: new Date().toISOString().substr(0, 10),
-            user: {}
+    computed: {
+        user() {
+            return this.$store.getters.user
+        },
+        loading() {
+            return this.$store.getters.loading
         }
     },
-    methods: {
-        getSummary() {
-            this.loading = true
-            axios.get(`${Prefix}/summary`).then(res => {
-                this.user = res.data
-                this.loading = false
-            })
+    data() {
+        return {
+            now: new Date().toISOString().substr(0, 10)
         }
     },
     mounted() {
-        this.getSummary()
+        this.$store.dispatch('getSummary')
     }
 }
 </script>

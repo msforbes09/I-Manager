@@ -1,31 +1,18 @@
 <?php
 
-use Illuminate\Http\Request;
+Route::post('/login', 'AuthController@login');
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+Route::middleware('auth:api')->group(function() {
+    Route::post('/logout', 'AuthController@logout');
+    Route::get('/summary', 'Api\SummaryController@index');
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+    Route::post('/income', 'Api\IncomeController@index');
+    Route::post('/income/store', 'Api\IncomeController@store');
+    Route::get('/income/{income}', 'Api\IncomeController@show');
 
-// Route::group([ 'prefix' => 'auth' ], function () {
-//     Route::post('login', 'AuthController@login');
-//     // Route::post('signup', 'AuthController@signup');
-
-//     Route::group([ 'middleware' => 'auth:api' ], function() {
-//         Route::get('logout', 'AuthController@logout');
-//         Route::get('user', 'AuthController@user');
-//     });
-// });
-
-// Route::middleware('auth:api')->get('/expenses', 'ExpenseController@expenses');
-
+    Route::post('/expense', 'Api\ExpenseController@index');
+    Route::post('/expense/store', 'Api\ExpenseController@store');
+    Route::get('/expense/date/{date}', 'Api\ExpenseController@daily');
+    Route::post('/expense/search', 'Api\ExpenseController@search');
+    Route::get('/expense/{expense}', 'Api\ExpenseController@show');
+});

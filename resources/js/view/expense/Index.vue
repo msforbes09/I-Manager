@@ -1,12 +1,13 @@
 <template>
     <div>
-        <alert/>
-        <daily/>
-        <show/>
+        <daily />
+        <show />
+        <search />
+        <create />
         <v-layout>
             <v-spacer></v-spacer>
-            <create/>
-            <search/>
+            <v-btn @click="create()" class="primary">Add New</v-btn>
+            <v-btn @click="search" class="success">Search</v-btn>
         </v-layout>
         <v-data-table
             :headers="headers"
@@ -22,7 +23,7 @@
                 <td class="text-xs-left">{{ props.item.date }}</td>
                 <td class="text-xs-left">{{ props.item.amount }}</td>
                 <td class="text-xs-right">
-                    <v-icon small class="mr-2" @click="daily(props.item.date)">zoom_in</v-icon>
+                    <v-icon small class="mr-2" @click="showDaily(props.item.date)">zoom_in</v-icon>
                     <v-icon small @click="create(props.item.date)">add</v-icon>
                 </td>
             </template>
@@ -33,7 +34,6 @@
 <script>
 export default {
     components: {
-        alert: require('./Alert.vue').default,
         create: require('./Create.vue').default,
         daily: require('./Daily.vue').default,
         search: require('./search.vue').default,
@@ -41,13 +41,13 @@ export default {
     },
     computed: {
         expenses() {
-            return this.$store.state.expense.expenses.data
-        },
-        loading() {
-            return this.$store.state.expense.loading
+            return this.$store.getters.expenses.data
         },
         totalItems() {
-            return this.$store.state.expense.expenses.total
+            return this.$store.getters.expenses.total
+        },
+        loading() {
+            return this.$store.getters.loading
         }
     },
     data() {
@@ -61,20 +61,24 @@ export default {
         }
     },
     methods: {
-        create(date) {
-            this.$store.commit('expense/activeDate', date)
-            this.$store.commit('expense/showCreate', true)
+        create(date = new Date().toISOString().substr(0, 10)) {
+            this.$store.commit('date', date)
+            this.$store.commit('createExpense', true)
         },
-        daily(date) {
-            this.$store.commit('expense/activeDate', date)
-            this.$store.dispatch('expense/getDaily', date)
+        showDaily(date) {
+            this.$store.dispatch('getDailyExpenses', date)
+        },
+        getExpenses() {
+            this.$store.dispatch('getExpenses', this.pagination)
+        },
+        search() {
+            this.$store.commit('showSearchedExpenses', true)
         }
     },
     watch: {
         pagination: {
             handler() {
-                this.$store.commit('expense/pagination', this.pagination)
-                this.$store.dispatch('expense/getExpenses')
+                this.getExpenses()
             },
             deep: true
         }

@@ -35,7 +35,7 @@ class IncomeController extends Controller
             $request->only(['date', 'subject', 'amount', 'details'])
         );
 
-        return ['message' => 'Success!'];
+        return ['message' => 'Income successfully recorded!'];
     }
 
     public function show(Income $income)

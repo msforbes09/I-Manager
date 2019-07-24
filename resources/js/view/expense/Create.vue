@@ -1,13 +1,12 @@
 <template>
-    <div>
-        <v-btn @click="create" class="primary">Add New</v-btn>
-
-        <v-dialog v-model="show" persistent max-width="600px">
-            <v-card>
-                <v-card-title>
-                    <span class="headline">New Expense</span>
-                </v-card-title>
-                <v-card-text @keydown="error.clear($event.target.name)">
+    <v-dialog v-model="show" :persistent="loading" max-width="600px">
+        <v-card>
+            <v-card-title>
+                <span class="headline">New Expense</span>
+            </v-card-title>
+            <v-divider></v-divider>
+            <form @submit.prevent="store" @keydown="error.clear($event.target.name)">
+                <v-card-text>
                     <v-container grid-list-md>
                         <v-flex xs12>
                             <v-text-field
@@ -62,15 +61,15 @@
                         </v-flex>
                     </v-container>
                 </v-card-text>
-
+                <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat @click="store">Save</v-btn>
-                    <v-btn color="blue darken-1" flat @click="show = false">Close</v-btn>
+                    <v-btn color="indigo" type="submit" dark :loading="loading">Save</v-btn>
+                    <v-btn color="deep-orange" dark :disabled="loading" @click="show = false">Close</v-btn>
                 </v-card-actions>
-            </v-card>
-        </v-dialog>
-    </div>
+            </form>
+        </v-card>
+    </v-dialog>
 </template>
 
 <script>
@@ -80,54 +79,48 @@ export default {
     computed: {
         show: {
             get() {
-                return this.$store.state.expense.showCreate
+                return this.$store.getters.createExpense
             },
             set(arg) {
-                this.$store.commit('expense/showCreate', arg)
+                this.$store.commit('createExpense', arg)
             }
+        },
+        error() {
+            return this.$store.getters.error
+        },
+        loading() {
+            return this.$store.getters.loading
+        },
+        date() {
+            return this.$store.getters.date
+        },
+        error() {
+            return this.$store.getters.error
         }
     },
     data() {
         return {
             datepicker: false,
-            error: new Error(),
             newExpense: {}
         }
     },
     methods: {
-        create() {
-            this.$store.commit('expense/activeDate', new Date().toISOString().substr(0, 10))
-            this.show = true
+        store() {
+            this.$store.dispatch('storeExpense', this.newExpense)
         },
         reset() {
             this.error.reset()
             this.newExpense = {
-                date: this.$store.state.expense.activeDate,
+                date: this.date,
                 subject: '',
                 amount: null,
                 description: ''
             }
-        },
-        store() {
-            this.$store
-                .dispatch('expense/store', this.newExpense)
-                .then(res => {
-                    this.show = false
-                    this.$store.dispatch('expense/getDaily', this.newExpense.date)
-                    this.$store.commit('expense/alert', res.data.message)
-                })
-                .catch(err => {
-                    this.error.record(err.response.data.errors)
-                })
         }
     },
     watch: {
-        show: {
-            handler(value) {
-                if (value) {
-                    this.reset()
-                }
-            }
+        show(val) {
+            if (val) this.reset()
         }
     }
 }

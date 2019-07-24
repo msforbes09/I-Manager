@@ -1,13 +1,13 @@
 <template>
-    <v-dialog v-model="show" max-width="1000px" persistent>
+    <v-dialog v-model="show" max-width="1000px">
         <v-card dark>
             <v-card-title>
-                <span class="headline" v-text="date"></span>
+                <span class="headline" v-text="date">date</span>
             </v-card-title>
             <v-data-table
                 :headers="headers"
-                :loading="loading"
                 :items="expenses"
+                :loading="loading"
                 :rows-per-page-items="[10]"
                 disable-initial-sort
             >
@@ -22,8 +22,8 @@
             </v-data-table>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="yellow" flat @click="create">New</v-btn>
-                <v-btn color="yellow" flat @click="show = false">Close</v-btn>
+                <v-btn color="indigo" dark @click="create()">New</v-btn>
+                <v-btn color="deep-orange" dark @click="show = false">Close</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -33,21 +33,21 @@
 export default {
     computed: {
         date() {
-            return this.$store.state.expense.activeDate
+            return this.$store.getters.date
         },
         expenses() {
-            return this.$store.state.expense.expensesDaily
-        },
-        loading() {
-            return this.$store.state.expense.loading
+            return this.$store.getters.dailyExpenses
         },
         show: {
             get() {
-                return this.$store.state.expense.showDaily
+                return this.$store.getters.showDailyExpenses
             },
             set(arg) {
-                this.$store.commit('expense/showDaily', arg)
+                this.$store.commit('showDailyExpenses', arg)
             }
+        },
+        loading() {
+            return this.$store.getters.loading
         }
     },
     data() {
@@ -62,13 +62,11 @@ export default {
     },
     methods: {
         create() {
-            this.$store.commit('expense/showCreate', true)
+            this.$store.commit('date', this.date)
+            this.$store.commit('createExpense', true)
         },
         showExpense(id) {
-            this.$store.dispatch('expense/getExpense', id).then(res => {
-                this.$store.commit('expense/expense', res.data)
-                this.$store.commit('expense/showExpense', true)
-            })
+            this.$store.dispatch('getExpense', id)
         }
     }
 }

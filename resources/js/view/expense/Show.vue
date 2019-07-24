@@ -19,7 +19,7 @@
 
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" flat @click="show = false">Close</v-btn>
+                <v-btn color="deep-orange" dark @click="show = false">Close</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -29,14 +29,14 @@
 export default {
     computed: {
         expense() {
-            return this.$store.state.expense.expense
+            return this.$store.getters.expense
         },
         show: {
             get() {
-                return this.$store.state.expense.showExpense
+                return this.$store.getters.showExpense
             },
             set(arg) {
-                this.$store.commit('expense/showExpense', arg)
+                this.$store.commit('showExpense', arg)
             }
         }
     }
